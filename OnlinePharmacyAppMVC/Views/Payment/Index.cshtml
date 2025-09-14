@@ -1,0 +1,49 @@
+﻿﻿@{
+Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+ViewData["Title"] = "Payment";
+}
+
+<h2>Choose Payment Method</h2>
+
+<form method="post" asp-action="ProcessPayment">
+    <div>
+        <label><input type="radio" name="PaymentMethod" value="UPI" checked /> UPI</label><br />
+        <label><input type="radio" name="PaymentMethod" value="Card" /> Credit/Debit Card</label><br />
+        <label><input type="radio" name="PaymentMethod" value="COD" /> Cash on Delivery</label>
+    </div>
+
+
+
+    <div id="upi-section" style="margin-top:15px;">
+        <label>UPI ID:</label>
+        <input type="text" name="UpiId" placeholder="example@upi" class="form-control" />
+    </div>
+
+    <div id="card-section" style="display:none; margin-top:15px;">
+        <label>Card Number:</label>
+        <input type="text" name="CardNumber" class="form-control" /><br />
+        <label>Expiry Date:</label>
+        <input type="month" name="Expiry" class="form-control" /><br />
+        <label>CVV:</label>
+        <input type="password" name="CVV" class="form-control" maxlength="3" />
+    </div>
+
+
+</form>
+<div style="margin-top: 20px;">
+    <form method="get" asp-controller="Order" asp-action="ConfirmOrder">
+        <button type="submit" class="btn btn-primary">Confirm Payment</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('input[name="PaymentMethod"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                const selected = this.value;
+                document.getElementById('upi-section').style.display = selected === 'UPI' ? 'block' : 'none';
+                document.getElementById('card-section').style.display = selected === 'Card' ? 'block' : 'none';
+            });
+        });
+    </script>
+}

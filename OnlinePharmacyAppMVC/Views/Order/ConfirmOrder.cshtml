@@ -1,0 +1,47 @@
+﻿@model List<OnlinePharmacyAppMVC.Models.CartModel>
+@{
+    Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+    ViewData["Title"] = "Your Cart";
+}
+
+<h2>Thanks! We've received your order.</h2>
+
+@if (Model != null && Model.Count > 0)
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Medicine Name</th>
+                <th>Quantity</th>
+                <th>Price (each)</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.MedName</td>
+                    <td>@item.StockQty</td>
+                    <td>@item.Price.ToString("F2")</td>
+                    <td>@item.Amount.ToString("F2")</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3"><strong>Total</strong></td>
+                <td>
+                    <strong>@Model.Sum(i => i.Amount).ToString("F2")</strong>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+else
+{
+    <p>No items in your cart.</p>
+}
+<form method="post" asp-action="DownloadPdfReport">
+    <button type="submit">Download PDF</button>
+</form>

@@ -1,0 +1,49 @@
+﻿@model OnlinePharmacyAppMVC.Models.CartPageViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+    ViewData["Title"] = "Discount Summary";
+}
+
+<h2>Discount Summary</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Medicine</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.CartItems)
+        {
+            <tr>
+                <td>@item.MedName</td>
+                <td>@item.StockQty</td>
+                <td>@item.Price.ToString("F2")</td>
+                <td>@item.Amount.ToString("F2")</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3">Subtotal</td>
+            <td>@Model.SubTotal.ToString("F2")</td>
+        </tr>
+        <tr>
+            <td colspan="3">Discount (@Model.DiscountCode)</td>
+            <td>-@Model.DiscountAmount.ToString("F2")</td>
+        </tr>
+        <tr>
+            <td colspan="3"><strong>Final Total</strong></td>
+            <td><strong>@Model.FinalTotal.ToString("F2")</strong></td>
+        </tr>
+    </tfoot>
+</table>
+<form asp-controller="Payment" asp-action="ProcessPayment" method="post">
+    <input type="hidden" name="totalAmount" value="@Model.FinalTotal" />
+    <button type="submit" class="btn btn-success">Go to Payment</button>
+</form>
+

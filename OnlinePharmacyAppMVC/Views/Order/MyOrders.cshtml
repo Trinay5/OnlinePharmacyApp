@@ -1,0 +1,43 @@
+﻿@model OnlinePharmacyAppMVC.DTO.GetOrder
+@{
+    ViewData["Title"] = "My Orders";
+    Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">@ViewData["Title"]</h2>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger text-center">@TempData["Error"]</div>
+    }
+
+    @if (Model.data != null && Model.data.Any())
+    {
+        <table class="table table-bordered table-hover shadow-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Order Date</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model.data)
+                {
+                    <tr>
+                        <td>@order.orderId</td>
+                        <td>@order.orderDate.ToString("dd MMM yyyy")</td>
+                        <td>₹@order.totalAmount.ToString("F2")</td>
+                        <td>@order.status</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p class="text-center text-muted">You haven't placed any orders yet.</p>
+    }
+</div>
